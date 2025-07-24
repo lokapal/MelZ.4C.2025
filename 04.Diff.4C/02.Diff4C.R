@@ -34,7 +34,7 @@ suppressPackageStartupMessages(library(powerjoin))
 # Convert to matrix
 countdata <- round(as.matrix(countdata))
 
-# Assign condition (first two are expansion, second two are control)
+# Assign condition (first two are experiments, second two are controls)
 (condition <- factor(c(rep("exp", 2), rep("ctl", 2))))
 
 # Analysis with DESeq2 ----------------------------------------------------
