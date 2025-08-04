@@ -19,8 +19,8 @@ give.n <- function(x){
   return(c(y = log10(50000), label = length(x))) 
 }
 
-library(docxtractr)
-library(dplyr)
+suppressPackageStartupMessages(library(docxtractr))
+suppressPackageStartupMessages(library(dplyr))
 
 doc <- read_docx("4C.Venn.docx")
 doctbl <- docx_extract_tbl(doc, header=TRUE)
@@ -85,18 +85,8 @@ TP <- data.frame("data"=PlastDecrPlot$P.TMM,key="PlastDecr.P")
 TM <- data.frame("data"=PlastDecrPlot$M.TMM,key="PlastDecr.M")
 Tests <- rbind (Tests,TP,TM)
 
-#head(Tests)
-#FinalPlot  <- tidyr::pivot_longer(Tests, cols = 1:2)
-#head(FinalPlot)
-#stop()
-
-#PlastDecrPlot  <- tidyr::pivot_longer(PlastDecrPlot, cols = 1:2)
-#PlastDecrPlot  <- PlastDecrPlot %>% mutate (Condition='PlasticDecreased')
-#PlastDecrPlot$name <- factor(PlastDecrPlot$name, levels = c("P.TMM", "M.TMM"))
-
 FinalPlot <- Tests %>% arrange(data) %>%
   mutate(key = factor(key, levels=c("Plastic.P", "Plastic.M", "Decreased.P", "Decreased.M", "Increased.P", "Increased.M", "PlastDecr.P", "PlastDecr.M", "PlastIncr.P", "PlastIncr.M")))
-
 
 suppressPackageStartupMessages(library(ggplot2))
 #suppressPackageStartupMessages(library(hrbrthemes))
@@ -112,10 +102,7 @@ ggplot(FinalPlot,aes(x=key, y=data, fill=key)) +
                 minor_breaks = c(0.005,0.05,0.5,5,50,500,5000)) +
   stat_summary(fun.data = give.n, geom = "text", fun = median, position = position_dodge(width = 0.75), color="black") +
   scale_fill_npg()
-#  scale_color_manual(values=c("#E69F00", "#56B4E9")) +
-#  scale_fill_manual(values=c("#56B4E9", "#E69F00")) 
 invisible(dev.off())
-
 
 # Alternative version with splitted violins
 #
@@ -136,4 +123,5 @@ invisible(dev.off())
 
 df <- pairwise.wilcox.test(Tests$data, Tests$key, p.adjust.method = "holm")
 write.table (df$p.value, file="MWtest.txt", sep="\t", row.names=T, col.names=T, quote = F)
+
 
