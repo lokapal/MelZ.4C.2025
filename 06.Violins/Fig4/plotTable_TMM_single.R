@@ -129,8 +129,6 @@ invisible(dev.off())
 #  stat_summary(fun.data = give.n, geom = "text", fun = median, position = position_dodge(width = 0.75), color="black") 
 #invisible(dev.off())
 
-#https://r-graph-gallery.com/267-reorder-a-variable-in-ggplot2.html
-
 # p.adjust.method
 # method to adjust p values for multiple comparisons. Used when pairwise comparisons are performed. 
 # "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none". 
@@ -138,3 +136,4 @@ invisible(dev.off())
 
 df <- pairwise.wilcox.test(Tests$data, Tests$key, p.adjust.method = "holm")
 write.table (df$p.value, file="MWtest.txt", sep="\t", row.names=T, col.names=T, quote = F)
+
